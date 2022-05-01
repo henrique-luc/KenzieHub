@@ -1,5 +1,11 @@
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as yup from "yup";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import { useState } from "react";
+
+import Input from "../../Input";
+import Button from "../../Button";
+import { Register } from "./style";
 
 export default function FormRegister() {
   const formik = useFormik({
@@ -34,11 +40,17 @@ export default function FormRegister() {
     },
   });
 
+  const passwordIsHidden = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <Register onSubmit={formik.handleSubmit}>
       <section>
-        <label htmlFor="name">Nome</label>
-        <input
+        <Input
+          label="Nome"
           type="text"
           id="name"
           name="name"
@@ -52,8 +64,8 @@ export default function FormRegister() {
         )}
       </section>
       <section>
-        <label htmlFor="email">Email</label>
-        <input
+        <Input
+          label="Email"
           type="email"
           id="email"
           name="email"
@@ -67,30 +79,34 @@ export default function FormRegister() {
         )}
       </section>
       <section>
-        <label htmlFor="password">Senha</label>
-        <input
-          type="password"
+        <Input
+          label="Senha"
+          type={showPassword ? "text" : "password"}
           id="password"
           name="password"
           placeholder="Digite aqui sua senha"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
+          icon={showPassword ? FiEye : FiEyeOff}
+          onClick={() => passwordIsHidden()}
         />
         {formik.touched.password && formik.errors.password && (
           <span>{formik.errors.password}</span>
         )}
       </section>
       <section>
-        <label htmlFor="confirmPassword">Confirmar Senha</label>
-        <input
-          type="password"
+        <Input
+          label="Confirmar Senha"
+          type={showPassword ? "text" : "password"}
           id="confirmPassword"
           name="confirmPassword"
           placeholder="Digite novamente sua senha"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.confirmPassword}
+          icon={showPassword ? FiEye : FiEyeOff}
+          onClick={() => passwordIsHidden()}
         />
         {formik.touched.confirmPassword && formik.errors.confirmPassword && (
           <span>{formik.errors.confirmPassword}</span>
@@ -113,7 +129,7 @@ export default function FormRegister() {
           <span>{formik.errors.selectModule}</span>
         )}
       </section>
-      <button type="submit">Cadastrar</button>
-    </form>
+      <Button type="submit">Cadastrar</Button>
+    </Register>
   );
 }

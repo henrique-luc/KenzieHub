@@ -1,12 +1,12 @@
-import "./App.css";
-import FormLogin from "./Components/Form/FormLogin";
+import GlobalStyle from "./Styles/global";
 import Routes from "./Routes";
 
 function App() {
   return (
-    <div className="App">
-      <header>{<Routes />}</header>
-    </div>
+    <>
+      <GlobalStyle />
+      <Routes />
+    </>
   );
 }
 

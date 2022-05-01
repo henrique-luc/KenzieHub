@@ -1,5 +1,11 @@
 import { Formik, useFormik } from "formik";
 import * as yup from "yup";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import { useState } from "react";
+
+import Input from "../../Input";
+import Button from "../../Button";
+import { Login } from "./style";
 
 export default function FormLogin() {
   const formik = useFormik({
@@ -22,11 +28,17 @@ export default function FormLogin() {
     },
   });
 
+  const passwordIsHidden = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <Login onSubmit={formik.handleSubmit}>
       <section>
-        <label htmlFor="email">Email</label>
-        <input
+        <Input
+          label="Email"
           type="email"
           id="email"
           name="email"
@@ -40,21 +52,23 @@ export default function FormLogin() {
         )}
       </section>
       <section>
-        <label htmlFor="password">Senha</label>
-        <input
-          type="password"
+        <Input
+          label="Senha"
+          type={showPassword ? "text" : "password"}
           id="password"
           name="password"
           placeholder="Digite aqui sua senha"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
+          icon={showPassword ? FiEye : FiEyeOff}
+          onClick={() => passwordIsHidden()}
         />
         {formik.touched.password && formik.errors.password && (
           <span>{formik.errors.password}</span>
         )}
       </section>
-      <button type="submit">Entrar</button>
-    </form>
+      <Button type="submit">Entrar</Button>
+    </Login>
   );
 }
