@@ -41,7 +41,7 @@ export default function FormModalDet({ techId, setTechnology }) {
               setTechnology(response.data.techs);
             })
             .catch((err) => {
-              toast.error("Ops! Algo deu errado");
+              console.log(err);
             });
         })
         .catch((err) => {
@@ -49,6 +49,21 @@ export default function FormModalDet({ techId, setTechnology }) {
         });
     },
   });
+
+  function deleteTech() {
+    api
+      .delete(`/users/techs/${user.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        toast.success("Tecnologia excluida");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   return (
     <Form onSubmit={formik.handleSubmit}>
@@ -79,7 +94,7 @@ export default function FormModalDet({ techId, setTechnology }) {
         </select>
       </section>
       <Button type="submit">Salvar Alterações</Button>
-      <Button type="submit">Excluir</Button>
+      <Button>Excluir</Button>
     </Form>
   );
 }
