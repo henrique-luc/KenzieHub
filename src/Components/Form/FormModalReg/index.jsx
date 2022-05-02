@@ -6,9 +6,8 @@ import { toast } from "react-toastify";
 import Input from "../../Input";
 import Button from "../../Button";
 import { Form } from "./style";
-import { useState } from "react";
 
-export default function FormModalReg() {
+export default function FormModalReg({ technology, setTechnology }) {
   const token = JSON.parse(localStorage.getItem("@KenzieHub:token") || "");
 
   const formik = useFormik({
@@ -29,6 +28,7 @@ export default function FormModalReg() {
         })
         .then((_) => {
           toast.success("Nova tecnologia adicionada");
+          setTechnology([...technology, data]);
         })
         .catch((err) => {
           toast.error("Ops! Algo deu errado");

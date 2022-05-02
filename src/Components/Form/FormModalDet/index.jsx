@@ -7,7 +7,9 @@ import Input from "../../Input";
 import Button from "../../Button";
 import { Form } from "./style";
 
-export default function FormModalDet() {
+export default function FormModalDet({ technology }) {
+  const token = JSON.parse(localStorage.getItem("@KenzieHub:token") || "");
+
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -17,16 +19,19 @@ export default function FormModalDet() {
       title: yup.string(),
       status: yup.string(),
     }),
-    onSubmit: ({ title, status }) => {
-      const changeTec = { title, status };
-      api
-        .put("/users/techs", changeTec)
-        .then((_) => {
-          toast.success("Tecnologia salva");
-        })
-        .catch((err) => {
-          toast.error("Ops! Algo deu errado");
-        });
+    onSubmit: (data) => {
+      //api
+      //  .put(`/users/techs/${id}`, data, {
+      //    headers: {
+      //      Authorization: `Bearer ${token}`,
+      //    },
+      //  })
+      //  .then((_) => {
+      //    toast.success("Tecnologia salva");
+      //  })
+      //  .catch((err) => {
+      //    toast.error("Ops! Algo deu errado");
+      //  });
     },
   });
 

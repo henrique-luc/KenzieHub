@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 
 import Modal from "../../Components/Modal";
 import FormModalReg from "../../Components/Form/FormModalReg";
+import FormModalDet from "../../Components/Form/FormModalDet";
 
 export default function Home({ authenticated, setAuthenticated }) {
   const [openModalReg, setOpenModalReg] = useState(false);
@@ -85,7 +86,7 @@ export default function Home({ authenticated, setAuthenticated }) {
             <h1>Cadastrar Tecnologia</h1>
             <button onClick={() => setOpenModalReg(!openModalReg)}>X</button>
           </section>
-          <FormModalReg />
+          <FormModalReg technology={technology} setTechnology={setTechnology} />
         </Modal>
 
         <Modal open={openModalDet}>
@@ -93,7 +94,7 @@ export default function Home({ authenticated, setAuthenticated }) {
             <h1>Tecnologia Detalhes</h1>
             <button onClick={() => setOpenModalDet(!openModalDet)}>X</button>
           </section>
-          <FormModalReg />
+          <FormModalDet technology={technology} />
         </Modal>
       </div>
     </>
