@@ -11,8 +11,6 @@ export default function FormModalDet({ techId, setTechnology }) {
   const token = JSON.parse(localStorage.getItem("@KenzieHub:token") || "");
   const user = JSON.parse(localStorage.getItem("@KenzieHub:user") || "");
 
-  console.log(techId);
-
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -52,13 +50,21 @@ export default function FormModalDet({ techId, setTechnology }) {
 
   function deleteTech() {
     api
-      .delete(`/users/techs/${user.id}`, {
+      .delete(`/users/techs/${techId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then(() => {
         toast.success("Tecnologia excluida");
+        api
+          .get(`/users/${user.id}`)
+          .then((response) => {
+            setTechnology(response.data.techs);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
@@ -66,35 +72,39 @@ export default function FormModalDet({ techId, setTechnology }) {
   }
 
   return (
-    <Form onSubmit={formik.handleSubmit}>
-      <section>
-        <Input
-          label="Nome"
-          type="text"
-          id="title"
-          name="title"
-          placeholder="Nova tecnologia"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.title}
-        />
-      </section>
-      <section>
-        <label htmlFor="status">Selecionar status</label>
-        <select
-          id="status"
-          name="status"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.status}
-        >
-          <option value="Iniciante">Iniciante</option>
-          <option value="Intermediário">Intermediário</option>
-          <option value="Avançado">Avançado</option>
-        </select>
-      </section>
-      <Button type="submit">Salvar Alterações</Button>
-      <Button>Excluir</Button>
-    </Form>
+    <>
+      <Form onSubmit={formik.handleSubmit}>
+        <section>
+          <Input
+            label="Nome"
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Nova tecnologia"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.title}
+          />
+        </section>
+        <section>
+          <label htmlFor="status">Selecionar status</label>
+          <select
+            id="status"
+            name="status"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.status}
+          >
+            <option value="Iniciante">Iniciante</option>
+            <option value="Intermediário">Intermediário</option>
+            <option value="Avançado">Avançado</option>
+          </select>
+        </section>
+        <Button type="submit">Salvar Alterações</Button>
+        <Button type="button" onClick={() => deleteTech()}>
+          Excluir
+        </Button>
+      </Form>
+    </>
   );
 }
