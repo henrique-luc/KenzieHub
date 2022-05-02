@@ -1,13 +1,18 @@
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as yup from "yup";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useState } from "react";
+import api from "../../../Services/api";
+import { toast } from "react-toastify";
 
 import Input from "../../Input";
 import Button from "../../Button";
 import { Login } from "./style";
+import { useHistory } from "react-router-dom";
 
 export default function FormLogin() {
+  const history = useHistory();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -23,8 +28,17 @@ export default function FormLogin() {
           "Senha deve conter no mínimo 8 caracteres, 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial"
         ),
     }),
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: ({ email, password }) => {
+      const newLogin = { email, password };
+      api
+        .post("/sessions", newLogin)
+        .then((_) => {
+          toast.success("Login feito com sucesso!");
+          return history.push("/home");
+        })
+        .catch((err) => {
+          toast.error("Ops! Algo deu errado");
+        });
     },
   });
 
@@ -46,6 +60,9 @@ export default function FormLogin() {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.email}
+          className={
+            formik.touched.email && formik.errors.email ? "errors" : ""
+          }
         />
         {formik.touched.email && formik.errors.email && (
           <span>{formik.errors.email}</span>
@@ -63,6 +80,9 @@ export default function FormLogin() {
           value={formik.values.password}
           icon={showPassword ? FiEye : FiEyeOff}
           onClick={() => passwordIsHidden()}
+          className={
+            formik.touched.password && formik.errors.password ? "errors" : ""
+          }
         />
         {formik.touched.password && formik.errors.password && (
           <span>{formik.errors.password}</span>

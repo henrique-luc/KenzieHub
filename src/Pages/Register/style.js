@@ -37,10 +37,11 @@ export const ContainerRegister = styled.div`
   .container_register-form {
     background-color: var(--grey-3);
     width: 296px;
-    height: 568px;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-bottom: 50px;
   }
 
   h2 {
@@ -69,7 +70,6 @@ export const ContainerRegister = styled.div`
 
     .container_register-form {
       width: 370px;
-      height: 711px;
     }
 
     h2 {

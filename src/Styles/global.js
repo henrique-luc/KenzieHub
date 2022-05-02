@@ -33,6 +33,7 @@ export default createGlobalStyle`
         --success: #3fe864;
         --negative: #e83f5b;  
         --white-1: #fff;
+        --red: #c53030;
 
         --logo: 1.25rem;
         --title: 1rem;

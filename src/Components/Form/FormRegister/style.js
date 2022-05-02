@@ -3,9 +3,39 @@ import styled from "styled-components";
 export const Register = styled.form`
   width: 90%;
 
+  .container_input-label {
+    color: var(--white-1);
+    font-size: var(--headline);
+    margin: 22px 0;
+  }
+
+  label {
+    color: var(--white-1);
+    font-size: var(--headline);
+  }
+
   Button {
     margin-top: 16.16px;
     width: 100%;
+  }
+
+  span {
+    color: var(--red);
+    font-size: var(--headline);
+  }
+
+  .errors {
+    border: 1.5px solid var(--red);
+    input::placeholder {
+      color: var(--red);
+    }
+    svg {
+      color: var(--red);
+    }
+  }
+
+  section:nth-child(4) {
+    margin-bottom: 22px;
   }
 
   select {
@@ -17,6 +47,8 @@ export const Register = styled.form`
     width: 100%;
     display: flex;
     transition: 0.4s;
+    margin-top: 22px;
+    cursor: pointer;
   }
 
   @media screen and (min-width: 769px) {

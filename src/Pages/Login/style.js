@@ -1,4 +1,3 @@
-import { keyframes } from "@emotion/react";
 import styled from "styled-components";
 
 export const ContainerLogin = styled.div`
@@ -18,10 +17,11 @@ export const ContainerLogin = styled.div`
   .container_login-form {
     background-color: var(--grey-3);
     width: 296px;
-    height: 402px;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-bottom: 50px;
   }
 
   h2 {
