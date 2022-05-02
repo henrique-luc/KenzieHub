@@ -7,7 +7,7 @@ import { Redirect } from "react-router-dom";
 import Modal from "../../Components/Modal";
 import FormModalReg from "../../Components/Form/FormModalReg";
 
-export default function Home({ authenticated }) {
+export default function Home({ authenticated, setAuthenticated }) {
   const [openModalReg, setOpenModalReg] = useState(false);
   const [openModalDet, setOpenModalDet] = useState(false);
 
@@ -26,15 +26,14 @@ export default function Home({ authenticated }) {
       .catch((err) => console.log(err));
   }
 
-  console.log(technology);
+  function LeavePage() {
+    localStorage.clear();
+    setAuthenticated(false);
+  }
 
   useEffect(() => {
     loadtech();
   }, []);
-
-  if (!authenticated) {
-    return <Redirect to="/" />;
-  }
 
   return (
     <>
@@ -42,7 +41,9 @@ export default function Home({ authenticated }) {
         <section className="container_home-logo">
           <div>
             <h1>Kenzie Hub</h1>
-            <SmallButton padding={"10px 20px"}>Sair</SmallButton>
+            <SmallButton padding={"10px 20px"} onClick={() => LeavePage()}>
+              Sair
+            </SmallButton>
           </div>
         </section>
         <section className="container_home-user">

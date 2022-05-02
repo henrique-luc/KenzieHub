@@ -6,7 +6,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export default function Routes() {
-  const [authenticated, setAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState();
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("@KenzieHub:token"));
@@ -22,10 +22,18 @@ export default function Routes() {
         <Login
           authenticated={authenticated}
           setAuthenticated={setAuthenticated}
+          esse
         />
       </Route>
       <Route exact path={"/home"}>
-        <Home authenticated={authenticated} />
+        {authenticated ? (
+          <Home
+            authenticated={authenticated}
+            setAuthenticated={setAuthenticated}
+          />
+        ) : (
+          <Redirect to="/" />
+        )}
       </Route>
       <Route exact path={"/register"}>
         <Register authenticated={authenticated} />

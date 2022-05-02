@@ -9,8 +9,7 @@ import { Form } from "./style";
 import { useState } from "react";
 
 export default function FormModalReg() {
-  const token = useState(localStorage.getItem("@KenzieHub:token") || "");
-  console.log(token);
+  const token = JSON.parse(localStorage.getItem("@KenzieHub:token") || "");
 
   const formik = useFormik({
     initialValues: {
@@ -21,10 +20,9 @@ export default function FormModalReg() {
       title: yup.string(),
       status: yup.string(),
     }),
-    onSubmit: ({ title, status }) => {
-      const newTec = { title, status };
+    onSubmit: (data) => {
       api
-        .post("/users/techs", newTec, {
+        .post("/users/techs", data, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
