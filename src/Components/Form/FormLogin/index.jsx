@@ -8,10 +8,11 @@ import { toast } from "react-toastify";
 import Input from "../../Input";
 import Button from "../../Button";
 import { Login } from "./style";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 
-export default function FormLogin() {
+export default function FormLogin({ authenticated, setAuthenticated }) {
   const history = useHistory();
+  const [showPassword, setShowPassword] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -28,11 +29,16 @@ export default function FormLogin() {
           "Senha deve conter no mínimo 8 caracteres, 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial"
         ),
     }),
-    onSubmit: ({ email, password }) => {
-      const newLogin = { email, password };
+    onSubmit: (data) => {
       api
-        .post("/sessions", newLogin)
-        .then((_) => {
+        .post("/sessions", data)
+        .then((response) => {
+          const { token } = response.data;
+
+          localStorage.setItem("@KenzieHub:token", token);
+
+          //setAuthenticated(true);
+
           toast.success("Login feito com sucesso!");
           return history.push("/home");
         })
@@ -46,7 +52,9 @@ export default function FormLogin() {
     setShowPassword(!showPassword);
   };
 
-  const [showPassword, setShowPassword] = useState(false);
+  //if (authenticated) {
+  //  return <Redirect to="/home" />;
+  //}
 
   return (
     <Login onSubmit={formik.handleSubmit}>

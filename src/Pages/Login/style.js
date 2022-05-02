@@ -41,7 +41,6 @@ export const ContainerLogin = styled.div`
   @media screen and (min-width: 769px) {
     .container_login-form {
       width: 27vw;
-      height: 80.3vh;
     }
 
     h2 {
