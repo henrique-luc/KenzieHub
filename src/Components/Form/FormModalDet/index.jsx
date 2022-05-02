@@ -43,7 +43,9 @@ export default function FormModalDet({ techId, setTechnology }) {
             });
         })
         .catch((err) => {
-          toast.error("Ops! Algo deu errado");
+          if (!Button.type === "button") {
+            toast.error("Ops! Algo deu errado");
+          }
         });
     },
   });
