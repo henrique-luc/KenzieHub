@@ -2,17 +2,19 @@ import SmallButton from "../../Components/ButtonSmall";
 import { ContainerHome } from "./style";
 import { useEffect, useState } from "react";
 import api from "../../Services/api";
-import { Redirect } from "react-router-dom";
 
 import Modal from "../../Components/Modal";
 import FormModalReg from "../../Components/Form/FormModalReg";
 import FormModalDet from "../../Components/Form/FormModalDet";
+import CardTech from "../../Components/CardTech";
 
 export default function Home({ authenticated, setAuthenticated }) {
   const [openModalReg, setOpenModalReg] = useState(false);
   const [openModalDet, setOpenModalDet] = useState(false);
 
   const [technology, setTechnology] = useState([]);
+  const [techId, setTechId] = useState("");
+
   const token = useState(localStorage.getItem("@KenzieHub:token") || "");
   const user = JSON.parse(localStorage.getItem("@KenzieHub:user") || "");
 
@@ -68,15 +70,10 @@ export default function Home({ authenticated, setAuthenticated }) {
               className="container_home-list-div"
               onClick={() => setOpenModalDet(!openModalReg)}
             >
-              {technology.map((tech) => (
-                <div key={tech.id}>
-                  <h2>{tech.title}</h2>
-                  <h3>{tech.status}</h3>
-                </div>
-              ))}
+              <CardTech technology={technology} setTechId={setTechId} />
             </div>
           ) : (
-            ""
+            <></>
           )}
         </section>
       </ContainerHome>
@@ -89,12 +86,12 @@ export default function Home({ authenticated, setAuthenticated }) {
           <FormModalReg technology={technology} setTechnology={setTechnology} />
         </Modal>
 
-        <Modal open={openModalDet}>
+        <Modal open={openModalDet} techId={techId}>
           <section className="container_modal-header">
             <h1>Tecnologia Detalhes</h1>
             <button onClick={() => setOpenModalDet(!openModalDet)}>X</button>
           </section>
-          <FormModalDet technology={technology} />
+          <FormModalDet techId={techId} setTechnology={setTechnology} />
         </Modal>
       </div>
     </>

@@ -7,8 +7,11 @@ import Input from "../../Input";
 import Button from "../../Button";
 import { Form } from "./style";
 
-export default function FormModalDet({ technology }) {
+export default function FormModalDet({ techId, setTechnology }) {
   const token = JSON.parse(localStorage.getItem("@KenzieHub:token") || "");
+  const user = JSON.parse(localStorage.getItem("@KenzieHub:user") || "");
+
+  console.log(techId);
 
   const formik = useFormik({
     initialValues: {
@@ -19,19 +22,31 @@ export default function FormModalDet({ technology }) {
       title: yup.string(),
       status: yup.string(),
     }),
-    onSubmit: (data) => {
-      //api
-      //  .put(`/users/techs/${id}`, data, {
-      //    headers: {
-      //      Authorization: `Bearer ${token}`,
-      //    },
-      //  })
-      //  .then((_) => {
-      //    toast.success("Tecnologia salva");
-      //  })
-      //  .catch((err) => {
-      //    toast.error("Ops! Algo deu errado");
-      //  });
+    onSubmit: ({ status }) => {
+      api
+        .put(
+          `/users/techs/${techId}`,
+          { status },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((_) => {
+          toast.success("Tecnologia alterada");
+          api
+            .get(`/users/${user.id}`)
+            .then((response) => {
+              setTechnology(response.data.techs);
+            })
+            .catch((err) => {
+              toast.error("Ops! Algo deu errado");
+            });
+        })
+        .catch((err) => {
+          toast.error("Ops! Algo deu errado");
+        });
     },
   });
 
