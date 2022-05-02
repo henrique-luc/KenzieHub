@@ -6,8 +6,12 @@ import { toast } from "react-toastify";
 import Input from "../../Input";
 import Button from "../../Button";
 import { Form } from "./style";
+import { useState } from "react";
 
 export default function FormModalReg() {
+  const token = useState(localStorage.getItem("@KenzieHub:token") || "");
+  console.log(token);
+
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -20,7 +24,11 @@ export default function FormModalReg() {
     onSubmit: ({ title, status }) => {
       const newTec = { title, status };
       api
-        .post("/users/techs", newTec)
+        .post("/users/techs", newTec, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((_) => {
           toast.success("Nova tecnologia adicionada");
         })

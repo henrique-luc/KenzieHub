@@ -33,11 +33,12 @@ export default function FormLogin({ authenticated, setAuthenticated }) {
       api
         .post("/sessions", data)
         .then((response) => {
-          const { token } = response.data;
+          const { token, user } = response.data;
 
-          localStorage.setItem("@KenzieHub:token", token);
+          localStorage.setItem("@KenzieHub:token", JSON.stringify(token));
+          localStorage.setItem("@KenzieHub:user", JSON.stringify(user));
 
-          //setAuthenticated(true);
+          setAuthenticated(true);
 
           toast.success("Login feito com sucesso!");
           return history.push("/home");
@@ -51,10 +52,6 @@ export default function FormLogin({ authenticated, setAuthenticated }) {
   const passwordIsHidden = () => {
     setShowPassword(!showPassword);
   };
-
-  //if (authenticated) {
-  //  return <Redirect to="/home" />;
-  //}
 
   return (
     <Login onSubmit={formik.handleSubmit}>

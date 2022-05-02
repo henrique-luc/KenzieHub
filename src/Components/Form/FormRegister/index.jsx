@@ -9,7 +9,6 @@ import Input from "../../Input";
 import Button from "../../Button";
 import { Register } from "./style";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { Redirect } from "react-router-dom";
 
 export default function FormRegister({ authenticated }) {
   const history = useHistory();
@@ -68,10 +67,6 @@ export default function FormRegister({ authenticated }) {
   };
 
   const [showPassword, setShowPassword] = useState(false);
-
-  if (authenticated) {
-    return <Redirect to="/home" />;
-  }
 
   return (
     <Register onSubmit={formik.handleSubmit}>

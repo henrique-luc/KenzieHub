@@ -74,7 +74,7 @@ export const ContainerHome = styled.div`
     border-radius: var(--radios-inputs-buttons);
   }
 
-  .container_home-list div {
+  .container_home-list-div div {
     background-color: var(--grey-4);
     border-radius: var(--radios-inputs-buttons);
     display: flex;

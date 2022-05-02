@@ -1,10 +1,14 @@
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 
 import FormRegister from "../../Components/Form/FormRegister";
 import { ContainerRegister } from "./style";
 
-export default function Register() {
+export default function Register({ authenticated }) {
   const history = useHistory();
+
+  if (authenticated) {
+    return <Redirect to="/home" />;
+  }
 
   return (
     <ContainerRegister>

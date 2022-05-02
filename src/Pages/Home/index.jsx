@@ -1,29 +1,40 @@
 import SmallButton from "../../Components/ButtonSmall";
 import { ContainerHome } from "./style";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../../Services/api";
+import { Redirect } from "react-router-dom";
 
 import Modal from "../../Components/Modal";
 import FormModalReg from "../../Components/Form/FormModalReg";
-import { Redirect } from "react-router-dom";
 
 export default function Home({ authenticated }) {
   const [openModalReg, setOpenModalReg] = useState(false);
   const [openModalDet, setOpenModalDet] = useState(false);
 
   const [technology, setTechnology] = useState([]);
-  const { token, payload } = useState(
-    localStorage.getItem("@KenzieHub:token") || ""
-  );
+  const token = useState(localStorage.getItem("@KenzieHub:token") || "");
+  const user = JSON.parse(localStorage.getItem("@KenzieHub:user") || "");
 
-  console.log(payload);
+  const { name, course_module, id } = user;
+
   function loadtech() {
-    api.get(`/users/${payload.id}`);
+    api
+      .get(`/users/${id}`)
+      .then((response) => {
+        setTechnology(response.data.techs);
+      })
+      .catch((err) => console.log(err));
   }
 
-  //if (!authenticated) {
-  //  return <Redirect to="/" />;
-  //}
+  console.log(technology);
+
+  useEffect(() => {
+    loadtech();
+  }, []);
+
+  if (!authenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <>
@@ -36,8 +47,8 @@ export default function Home({ authenticated }) {
         </section>
         <section className="container_home-user">
           <div>
-            <h2>Olá, Henrique</h2>
-            <h3>Primeiro mósulo (Introdução ao Frontend)</h3>
+            <h2>Olá, {name}</h2>
+            <h3>{course_module}</h3>
           </div>
         </section>
         <section className="container_home-tec">
@@ -50,10 +61,21 @@ export default function Home({ authenticated }) {
           </SmallButton>
         </section>
         <section className="container_home-list">
-          <div onClick={() => setOpenModalDet(!openModalReg)}>
-            <h2>React JS</h2>
-            <h3>Intermediário</h3>
-          </div>
+          {technology.length > 0 ? (
+            <div
+              className="container_home-list-div"
+              onClick={() => setOpenModalDet(!openModalReg)}
+            >
+              {technology.map((tech) => (
+                <div key={tech.id}>
+                  <h2>{tech.title}</h2>
+                  <h3>{tech.status}</h3>
+                </div>
+              ))}
+            </div>
+          ) : (
+            ""
+          )}
         </section>
       </ContainerHome>
       <div>
