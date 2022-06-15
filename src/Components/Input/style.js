@@ -37,5 +37,6 @@ export const InputContainer = styled.div`
 
   .container_input-icon {
     cursor: pointer;
+    width: 10%;
   }
 `;
