@@ -77,18 +77,6 @@ export default function FormModalDet({ techId, setTechnology }) {
     <>
       <Form onSubmit={formik.handleSubmit}>
         <section>
-          <Input
-            label="Nome"
-            type="text"
-            id="title"
-            name="title"
-            placeholder="Nova tecnologia"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.title}
-          />
-        </section>
-        <section>
           <label htmlFor="status">Selecionar status</label>
           <select
             id="status"
