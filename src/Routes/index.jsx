@@ -22,7 +22,6 @@ export default function Routes() {
         <Login
           authenticated={authenticated}
           setAuthenticated={setAuthenticated}
-          esse
         />
       </Route>
       <Route exact path={"/home"}>

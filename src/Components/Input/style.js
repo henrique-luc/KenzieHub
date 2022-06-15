@@ -31,6 +31,9 @@ export const InputContainer = styled.div`
       color: var(--grey-1);
     }
   }
+  section {
+    width: 10%;
+  }
 
   .container_input-icon {
     cursor: pointer;
